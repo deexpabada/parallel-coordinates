@@ -5,6 +5,7 @@ HashMap lineMap;
 Line[] lines;
 TableReader tb;
 
+
 void setup() {
   size(1200,750);
   pixelDensity(displayDensity());
@@ -34,6 +35,8 @@ void draw () {
     line(xpos*(i),150,xpos*(i),850);
    
   }
+  
+  //Probably start here for using Line objects
   
   //clear filter button
   fill(169,229,212);
