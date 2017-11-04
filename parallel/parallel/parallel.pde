@@ -3,51 +3,36 @@ Table table;
 ArrayList columnHeadings;
 HashMap lineMap;
 Line[] lines;
+TableReader tb;
 
 void setup() {
-  size(1600,1500);
+  size(1200,750);
   pixelDensity(displayDensity());
 
   font = createFont("SansSerif", 10);
   textFont(font);
 
-  TableReader();
-}
+  //TableReader();\
+  tb = new TableReader("nutrients-cleaned.tsv");
+  //tb = new TableReader("cameras-cleaned.tsv");
+  //tb = new TableReader("cars-cleaned.tsv");
 
-
-void TableReader () {
-  //table = loadTable("cameras-cleaned.tsv");
-  table = loadTable("cars-cleaned.tsv");
-  //table = loadTable("nutrients-cleaned.tsv");
-  lines = new Line[table.getRowCount()];
-  
-  for (int i = 0; i<table.getRowCount(); i++) {
-    TableRow row = table.getRow(i);
-  }
-
-  //get column headings
-  columnHeadings = new ArrayList();
-  for (int i = 0; i<table.getColumnCount(); i++) {
-    columnHeadings.add(table.getString(0, i));
-  }
-  
-   for (int i = 0; i<columnHeadings.size();i++) {
-     
-   }
+  tb.tableRead();
 }
 
 void draw () {
   background(255,204,204);
   
   //draw axes and columns
-  int xpos = 1600 / columnHeadings.size();  
-  for (int i = 1; i<columnHeadings.size(); i++) {
-    String label = columnHeadings.get(i).toString();
+  int xpos = 1200 / tb.columnHeadings.size();  
+  for (int i = 1; i<tb.columnHeadings.size(); i++) {
+    String label = tb.columnHeadings.get(i).toString();
     fill(0);
-    textSize(13);
+    textSize(9);
     textAlign(CENTER);
     text(label,xpos*(i),120);
     line(xpos*(i),150,xpos*(i),850);
+   
   }
   
   //clear filter button
