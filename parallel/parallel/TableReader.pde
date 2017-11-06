@@ -80,6 +80,7 @@ class TableReader {
       actualValue = table.getFloat(i, column);        //actual value
       scaledPoint = max - actualValue;
       y = columnHeight - (scale * scaledPoint);      //y value for each data point
+      y = Math.abs(y);
       yCoordMap.put(actualValue, y);    //create hashmap with actualValues as keys and y coordinates as values;
     }
     
