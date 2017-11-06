@@ -26,7 +26,7 @@ class TableReader {
           axesList.add(isFloat(i));
         }
       }
-      //print(axesList);
+      print(axesList);
     }
     
   //Store unique categories in a list and return a map of categories  
@@ -66,10 +66,9 @@ class TableReader {
     scale = columnHeight / span;    //scale
     for (int i = 2; i<table.getRowCount(); i++) {        
       actualValue = table.getFloat(i, column);        //actual value
-      scaledPoint = actualValue - span;
+      scaledPoint = max - actualValue;
       y = columnHeight - (scale * scaledPoint);      //y value for each data point
       y = Math.abs(y);
-      print(y, "\n");
       yCoordMap.put(actualValue, y);    //create hashmap with actualValues as keys and y coordinates as values;
     }
     
