@@ -16,23 +16,23 @@ class TableReader {
   void tableRead() {
     
     table = loadTable(name);
+     table = loadTable(name);
     
     //get column headings
-    columnHeadings = new ArrayList();
     for (int i = 1; i<table.getColumnCount(); i++) {  //iterate over columns that is not the first column
-      columnHeadings.add(table.getString(0, i));      //add column headings to a list
+      columnHeadings.add(table.getString(0, i));
       String tempType = table.getString(1,i);         //get type of data of column
-
+      columnTypes.add(tempType);    
+ 
       if (tempType.equals("string")) {                //if string column
           axesList.add(isString(i));                  //call isString method to get unique categories, returns a map; add map to axesList
       } else {
           axesList.add(isFloat(i));
         }
       }
-      print(axesList);
-    }
-    
-    
+      
+    }s}
+   
   //Store unique categories in a list and return a map of categories  
   HashMap isString(int column) {
     
@@ -44,13 +44,14 @@ class TableReader {
         categoryTypes.add(table.getString(i, column));                  //...add to categoryTypes list
       }
     }
+    //print(categoryTypes);
     
     float scale = columnHeight / categoryTypes.size();        //create scale: columnHeight / # of unique categories
     for (int i = 0; i<categoryTypes.size(); i++) {            
       yCoordMap.put(categoryTypes.get(i),scale * i);          //create hashmap with categories as keys and y coordinate as values
                                                               //Y coordinates define where a line starts for this category
     }
-    
+    //print(yCoordMap);
     return yCoordMap;
   }
   
