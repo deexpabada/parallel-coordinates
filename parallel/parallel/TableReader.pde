@@ -4,8 +4,9 @@ class TableReader {
   Table table;
   String name;
   ArrayList columnHeadings;
-  ArrayList axesList = new ArrayList();;
+  ArrayList axesList = new ArrayList();
   float columnHeight = 700;
+  ArrayList columnTypes = new ArrayList();
   
   
   TableReader(String name) {
@@ -21,7 +22,10 @@ class TableReader {
     columnHeadings = new ArrayList();
     for (int i = 1; i<table.getColumnCount(); i++) {  //iterate over columns that is not the first column
       columnHeadings.add(table.getString(0, i));      //add column headings to a list
+      
       String tempType = table.getString(1,i);         //get type of data of column
+      columnTypes.add(tempType);
+      
 
       if (tempType.equals("string")) {                //if string column
           axesList.add(isString(i));                  //call isString method to get unique categories, returns a map; add map to axesList
@@ -29,7 +33,7 @@ class TableReader {
           axesList.add(isFloat(i));
         }
       }
-      print(axesList);
+      //print(axesList);
     }
     
     
