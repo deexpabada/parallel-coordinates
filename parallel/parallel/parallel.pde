@@ -4,45 +4,98 @@ ArrayList columnHeadings;
 HashMap lineMap;
 Row[] rows;
 TableReader tb;
+float[] minList;
+float[] maxList;
+ArrayList categoryTypes = new ArrayList();
+float columnHeight = 700;
+HashMap<String, Float> categoryCoord;
 
 
 void setup() {
-  size(1200,750);
+  size(1200,900);
   pixelDensity(displayDensity());
 
   font = createFont("SansSerif", 10);
   textFont(font);
 
-  //TableReader();\
+  //Read Tables
   tb = new TableReader("nutrients-cleaned.tsv");
   //tb = new TableReader("cameras-cleaned.tsv");
   //tb = new TableReader("cars-cleaned.tsv");
 
   tb.tableRead();
-  createRowObject();
+  createLists();
+
 }
 
-void createRowObject() {        //create Row object for each row in table
-  for (int i = 2; i < tb.table.getRowCount() ; i++) {      //iterate through rows 
-    //TableRow row = tb.table.getRow(i);
+void createLists() {        //create lists with max, min, category values
+  rows = new Row[tb.table.getRowCount()-2];
+  for (int i = 2; i < tb.table.getRowCount() ; i++) {      //iterate through rows 2:tb.table.getRowCount();
+    minList = new float[tb.table.getColumnCount()];
+    maxList = new float[tb.table.getColumnCount()];
+    rows[i-2] = new Row();
     ArrayList columnValues = new ArrayList();        //array containing column values
-    Row row = new Row();                              //initialize new row object
     for (int j = 1; j < tb.table.getColumnCount(); j++) {      //iterate through columns
       columnValues.add(tb.table.getString(i,j));            //add column value to array
-    }
-    
-    for (int k = 0; k < columnValues.size(); k++) {        //iterate through columnValues list  
-      if (tb.columnTypes.get(k).equals("string")) {        //if column is string type
-        String value = columnValues.get(k).toString();      //get string version of column value
-        row.addColumnString(value);          //add value to row object's array of values
-      } else {                    //if column is float type
-        Float value = Float.valueOf(columnValues.get(k).toString()); //convert to float
-        row.addColumnFloat(value);       //add value to row object's array of values
+      
+      if (tb.columnTypes.get(j-1).equals("string")) {
+        getCategoryTypes(j);      //add category types to list
+        categoryLocations();                                    //generate y val for string categories
+        float y1 = categoryCoord.get(columnValues.get(j-1));      //get y coord
+        rows[i-2].addColumnYCoord(y1);                              //add y coordinate to row object
+        
+      } else {                                            //if float
+        getMinMax(j);      //add min, max vlaues to list          //get min, max for each column
+        float span = maxList[j] - minList[j];
+        float scale = columnHeight / span;
+        float actualValue = Float.valueOf(columnValues.get(j-1).toString());
+        float scaledPoint = maxList[j] - actualValue;
+        float y1 = columnHeight - (scale * scaledPoint);
+        rows[i-2].addColumnYCoord(y1);                              //add y coordinate to row object
       }
     }
+    rows[i-2].setColumnNumber(columnValues.size());                        //number of columns
   }
 }
 
+//return locations of categories
+void categoryLocations() {
+  float scale = columnHeight / categoryTypes.size();
+  categoryCoord = new HashMap<String, Float>();
+  for (int k = 0; k<categoryTypes.size(); k++) {
+    categoryCoord.put(categoryTypes.get(k).toString(), scale * k);
+  }
+}
+
+
+//return ArrayList of categoryTypes
+void getCategoryTypes(int column) {  
+  for (int i = 2; i<tb.table.getRowCount(); i++) {
+    if (!(categoryTypes.contains((tb.table.getString(i, column))))) {
+      categoryTypes.add(tb.table.getString(i, column));
+    }
+  }  
+}
+
+//return array of floats with max and min for each column
+void getMinMax(int column) {
+  float[] numList = new float[tb.table.getRowCount()-2];
+  int x = 0;
+  float min, max;
+  for (int i = 2; i<tb.table.getRowCount(); i++) {
+    numList[x] = tb.table.getFloat(i, column);
+    x++;
+  }
+  
+  Arrays.sort(numList);
+  min = numList[0];
+  max = numList[numList.length-1];
+  minList[column] = min;
+  maxList[column] = max;
+}
+  
+  
+      
 
 void draw () {
   background(255,204,204);
@@ -52,11 +105,12 @@ void draw () {
   for (int i = 0; i<tb.columnHeadings.size(); i++) {
     String label = tb.columnHeadings.get(i).toString();
     fill(0);
-    textSize(9);
+    textSize(10);
     textAlign(CENTER);
     text(label,xpos*(i)+20,120);
+
     line(xpos*(i)+20,150,xpos*(i)+20,850);
-   
+ 
   }
   
   //Probably start here for using Line objects
@@ -68,4 +122,10 @@ void draw () {
   textAlign(CENTER);
   fill(0);
   text("clear", 1390,920);
+  
+  for (int i = 0; i < rows.length; i++) {      //drawCoordinates
+    rows[i].setCoordinates();
+  }
+  
+
 }
