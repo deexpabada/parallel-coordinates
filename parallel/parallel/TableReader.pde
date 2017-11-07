@@ -3,7 +3,7 @@ import java.util.Arrays;
 class TableReader {
   Table table;
   String name;
-  ArrayList columnHeadings;
+  ArrayList columnHeadings = new ArrayList();
   ArrayList columnTypes = new ArrayList();
   
   
@@ -19,12 +19,13 @@ class TableReader {
     //get column headings
     for (int i = 1; i<table.getColumnCount(); i++) {  //iterate over columns that is not the first column
 
-      columnHeadings.add(table.getString(0, i));
-      String tempType = table.getString(1,i);         //get type of data of column
+      columnHeadings.add(table.getString(0, i));      //Example: group, protein, carbs, etc.
+      String tempType = table.getString(1,i);         //get type of data of column: string, float, etc.
       columnTypes.add(tempType);    
     }
   }
   
+  //Delete this part
   //Store unique categories in a list and return a map of categories  
   HashMap isString(int column) {
     
