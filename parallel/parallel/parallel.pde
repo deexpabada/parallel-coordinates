@@ -93,8 +93,6 @@ void getMinMax(int column) {
   maxList[column] = max;
 }
   
-  
-      
 
 void draw () {
   background(255,204,204);
@@ -114,6 +112,4 @@ void draw () {
   for (int i = 0; i < rows.length; i++) {      
     rows[i].setCoordinates();
   }
-  
-
 }

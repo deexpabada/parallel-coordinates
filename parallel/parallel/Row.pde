@@ -4,8 +4,7 @@ class Row {
   float x1, y1, x2, y2; 
   int columnNumber;
   
-  Row() {
-  }
+  Row() {}
   
   void addColumnYCoord(float y) {
     columnData.add(y);
@@ -30,7 +29,6 @@ class Row {
       x2 = x1;        //reset x2 values
       y2 = y1;        //reset y2 values
     }
-    
   }
   
   void setColumnNumber(int num) {
