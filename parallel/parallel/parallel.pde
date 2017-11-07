@@ -1,7 +1,6 @@
 PFont font;
 Table table;
 ArrayList columnHeadings;
-HashMap lineMap;
 Row[] rows;
 TableReader tb;
 float[] minList;
@@ -19,8 +18,8 @@ void setup() {
   textFont(font);
 
   //Read Tables
-  tb = new TableReader("nutrients-cleaned.tsv");
-  //tb = new TableReader("cameras-cleaned.tsv");
+  //tb = new TableReader("nutrients-cleaned.tsv");
+  tb = new TableReader("cameras-cleaned.tsv");
   //tb = new TableReader("cars-cleaned.tsv");
 
   tb.tableRead();
@@ -108,22 +107,11 @@ void draw () {
     textSize(10);
     textAlign(CENTER);
     text(label,xpos*(i)+20,120);
-
     line(xpos*(i)+20,150,xpos*(i)+20,850);
- 
   }
   
-  //Probably start here for using Line objects
-  
-  //clear filter button
-  fill(169,229,212);
-  rect(1300,880,200,60);
-  textSize(25);
-  textAlign(CENTER);
-  fill(0);
-  text("clear", 1390,920);
-  
-  for (int i = 0; i < rows.length; i++) {      //drawCoordinates
+  //draw coordinates
+  for (int i = 0; i < rows.length; i++) {      
     rows[i].setCoordinates();
   }
   

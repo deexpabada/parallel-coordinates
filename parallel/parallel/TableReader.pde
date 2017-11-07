@@ -4,8 +4,6 @@ class TableReader {
   Table table;
   String name;
   ArrayList columnHeadings;
-  ArrayList axesList = new ArrayList();
-  float columnHeight = 700;
   ArrayList columnTypes = new ArrayList();
   
   

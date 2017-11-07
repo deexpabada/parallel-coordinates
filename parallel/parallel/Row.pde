@@ -12,20 +12,23 @@ class Row {
   }
   
   void setCoordinates() {
-    float xpos = 1200 / columnNumber;
+    //for first column
+    float xpos = 1200 / columnNumber;          
       x1 = 20;
       y1 = Float.valueOf(columnData.get(0).toString())+150;
       x2 = xpos + 20;
       y2 = Float.valueOf(columnData.get(1).toString())+150;
       display(x1, y1, x2, y2);
+      
+    //for all other columns
     for (int i = 1; i < columnNumber-1; i++) {
       x1 = (xpos * i) + 20;
       y1 = Float.valueOf(columnData.get(i).toString())+150;
       x2 = (xpos * (i+1)) + 20;
       y2 = Float.valueOf(columnData.get(i+1).toString())+150;
       display(x1, y1, x2, y2);
-      x2 = x1;
-      y2 = y1;
+      x2 = x1;        //reset x2 values
+      y2 = y1;        //reset y2 values
     }
     
   }
