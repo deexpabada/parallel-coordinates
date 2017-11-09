@@ -20,6 +20,7 @@ float span;
 
 
 void setup() {
+  smooth();
   size(2200,1200);
   pixelDensity(displayDensity());
  
@@ -29,8 +30,8 @@ void setup() {
 
   //Read Tables
   //tb = new TableReader("nutrients-cleaned.tsv");
-  //tb = new TableReader("cameras-cleaned.tsv");
-  tb = new TableReader("cars-cleaned.tsv");
+  tb = new TableReader("cameras-cleaned.tsv");
+  //tb = new TableReader("cars-cleaned.tsv");
 
   tb.tableRead();
   createLists();
@@ -128,7 +129,7 @@ void getMinMax(int column) {
   
 
 void draw () {
-  background(237,154,184);
+  background(255);
   //draw axes
   for (int i = 0; i<axes.size(); i++) {
     axes.get(i).display();
@@ -141,8 +142,9 @@ void draw () {
     }
   }
   
+  
   //draw coordinates
-  for (int i = 0; i < rows.length; i++) {      
+  for (int i = 0; i < rows.length; i++) {
     rows[i].setCoordinates();
   }
 }

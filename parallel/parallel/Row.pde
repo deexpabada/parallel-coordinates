@@ -29,9 +29,8 @@ class Row {
   }
   
   void display(float x1, float y1, float x2, float y2) {
-    fill(232,235,50); 
     strokeWeight(0.01);
-    stroke(0);
+    stroke(112,175,150);
     line(x1,y1,x2,y2);
   }
 }

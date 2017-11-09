@@ -4,7 +4,7 @@ class Axis  {
   String label;
   float labelY = 30;
   float x;
-  int weight = 1;
+  int weight = 2;
   float y1 = 60; 
   float y2 = 950;
   int index;
@@ -33,10 +33,10 @@ class Axis  {
   
   int checkSelected() {
     selected = true;
-    weight = 3;
-    r = 66;
-    g = 170;
-    b = 244;
+    weight = 5;
+    r = 150;
+    g = 25;
+    b = 21;
     return index;
   }
   
@@ -55,7 +55,7 @@ class Axis  {
     r = 0;
     g = 0;
     b = 0;
-    weight = 1;
+    weight = 2;
   }
   
 }
