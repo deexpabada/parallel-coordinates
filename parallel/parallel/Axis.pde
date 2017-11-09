@@ -10,7 +10,7 @@ class Axis  {
   int index;
   float span;
   int r = 0, g =0, b = 0;
-  float boxx, boxy, boxw = 0, boxh=0;
+  float boxy, boxw = 0, boxh=0;
   
   boolean selected = false;
   
@@ -33,7 +33,7 @@ class Axis  {
   }
   
   void makeBox(){
-    FilterBox box = new FilterBox(x-10,boxy,boxw,boxh);
+    FilterBox box = new FilterBox(x-5,boxy,boxw,boxh);
     box.display();
   }
   

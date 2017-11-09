@@ -28,7 +28,7 @@ void setup() {
   pixelDensity(displayDensity());
  
 
-  font = createFont("SansSerif", 10);
+  font = createFont("Verdana", 10);
   textFont(font);
 
   //Read Tables
@@ -173,7 +173,6 @@ void mousePressed() {
   }
   
   if( overAxis && !overlabel && selectedAxisIndex != - 1) {
-    axes.get(selectedAxisIndex).boxx = mouseX;
     axes.get(selectedAxisIndex).boxy = mouseY;
     axes.get(selectedAxisIndex).makeBox();
   }
