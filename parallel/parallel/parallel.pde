@@ -154,6 +154,7 @@ void draw () {
     if (mouseY > 90) {
       overlabel = false;
     }
+    
     if (!overAxis) {
       selectedAxisIndex = -1;
     }
@@ -171,7 +172,7 @@ void mousePressed() {
   xOffset = mouseX - axes.get(selectedAxisIndex).x;
   }
   
-  if( overAxis) {
+  if( overAxis && !overlabel && selectedAxisIndex != - 1) {
     axes.get(selectedAxisIndex).boxx = mouseX;
     axes.get(selectedAxisIndex).boxy = mouseY;
     axes.get(selectedAxisIndex).makeBox();
@@ -183,13 +184,14 @@ void mouseDragged() {
     axes.get(selectedAxisIndex).x = mouseX - xOffset;
     axes.get(selectedAxisIndex).checkSelected();
   }
-  if (overAxis) {
+  if (overAxis && !overlabel && selectedAxisIndex != -1) {
+    axes.get(selectedAxisIndex).boxw = 10;
     axes.get(selectedAxisIndex).boxh = mouseY - axes.get(selectedAxisIndex).boxy;
   }
 }
 
 void mouseReleased(){
-  if (overlabel) {
+  if (overlabel && selectedAxisIndex != -1) {
     locked=false;
     reorderAxis();
   }

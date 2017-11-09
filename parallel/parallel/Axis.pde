@@ -2,18 +2,15 @@
 class Axis  {
   
   String label;
-  float labelY = 30;
+  float labelY = 50;
   float x;
   int weight = 2;
-  float y1 = 60; 
-  float y2 = 950;
+  float y1 = 80; 
+  float y2 = 980;
   int index;
   float span;
   int r = 0, g =0, b = 0;
-  float min, max;
-  float minY = 980;
-  float maxY = 40;
-  float boxx, boxy, boxw = 10, boxh;
+  float boxx, boxy, boxw = 0, boxh=0;
   
   boolean selected = false;
   
@@ -31,8 +28,7 @@ class Axis  {
     strokeWeight(weight);
     textAlign(CENTER);
     text(label,x, labelY);
-    line(x, y1, x, y2);
-    text(min,x, minY); 
+    line(x, y1, x, y2); 
     makeBox();
   }
   
