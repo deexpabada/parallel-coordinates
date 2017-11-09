@@ -1,17 +1,16 @@
 PFont font;
 Table table;
-ArrayList columnHeadings;
+ArrayList <String>columnHeadings;
 Row[] rows;
 int selectedAxisIndex;
 TableReader tb;
 float[] minList;
 float[] maxList;
-ArrayList categoryTypes = new ArrayList();
+ArrayList <String>categoryTypes = new ArrayList();
 float columnHeight = 900;
 HashMap<String, Float> categoryCoord;
 ArrayList<Axis> axes = new ArrayList<Axis>();
 boolean clicked = false;
-float xpos;
 boolean locked = false;
 float xOffset = 0.0;
 float yOffset = 0.0;
@@ -38,14 +37,14 @@ void setup() {
 
     
   //Change axis positions eventually
-  xpos = 2000 / tb.columnHeadings.size(); 
+  span = 2000 / tb.columnHeadings.size(); 
   
   for (int i = 0; i< tb.columnHeadings.size(); i++) {
-    String label = tb.columnHeadings.get(i).toString();
-    fill(0);
-    float x = xpos*(i)+60;
-    Axis axis = new Axis(label, x);
+    String label = tb.columnHeadings.get(i);
+    Axis axis = new Axis(label);
     axes.add(axis);
+    axis.span = span;
+    axis.updateX(axes.indexOf(axis));
   }
 }
 
@@ -93,7 +92,7 @@ void categoryLocations() {
   categoryCoord = new HashMap<String, Float>();                    //Map that will hold string value and its corresponding y-value
   
   for (int k = 0; k <categoryTypes.size(); k++) {                  //Loop through each string category
-    categoryCoord.put(categoryTypes.get(k).toString(), scale * k);
+    categoryCoord.put(categoryTypes.get(k), scale * k);
   }
 }
 
@@ -130,6 +129,7 @@ void getMinMax(int column) {
 
 void draw () {
   background(237,154,184);
+  //draw axes
   for (int i = 0; i<axes.size(); i++) {
     axes.get(i).display();
     //test if cursor is  over a label
@@ -147,20 +147,6 @@ void draw () {
   }
 }
 
-
-void reorderAxis() {
-  span = 2200 / tb.columnHeadings.size();
-  for (int i = 0; i < tb.columnHeadings.size(); i++) {
-    if ((abs(span * i + 20) - mouseX) < 5) {
-      axes.get(selectedAxisIndex).index = i;
-    }
-    if (axes.get(i).index > i) {
-      axes.get(i).index = axes.get(i).index+1;
-      axes.get(i).updateX(span);
-    }
-  }
-}
-
 void mousePressed() {
   if(overlabel) {
     locked = true;
@@ -173,9 +159,38 @@ void mousePressed() {
 void mouseDragged() {
   if(locked){
     axes.get(selectedAxisIndex).x = mouseX - xOffset;
+    axes.get(selectedAxisIndex).checkSelected();
   }
 }
 
 void mouseReleased(){
   locked=false;
+  reorderAxis();
+}
+
+void reorderAxis() {
+  axes.get(selectedAxisIndex).unselect();
+  span = 2200 / tb.columnHeadings.size();
+  int closestIndex = -1;
+  float smallestDistance = 1000;
+  for (int i = 0; i < tb.columnHeadings.size(); i++) {
+    float distance = abs(mouseX - axes.get(i).x);
+    if (i != selectedAxisIndex && distance < smallestDistance) {
+      closestIndex = i;
+      smallestDistance = distance;
+    }
+  }  
+  Axis temp = axes.get(selectedAxisIndex);
+  axes.remove(selectedAxisIndex);
+  axes.add(closestIndex, temp);
+  
+  //remap rows
+  for (Row row: rows) {
+    float rowtemp = row.columnData.get(selectedAxisIndex);
+    row.columnData.remove(selectedAxisIndex);
+    row.columnData.add(closestIndex, rowtemp);
+  }
+  for (int i = 0; i < axes.size(); i++) {
+    axes.get(i).updateX(i);
+  }
 }

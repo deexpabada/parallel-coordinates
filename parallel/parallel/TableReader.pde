@@ -3,8 +3,8 @@ import java.util.Arrays;
 class TableReader {
   Table table;
   String name;
-  ArrayList columnHeadings = new ArrayList();
-  ArrayList columnTypes = new ArrayList();
+  ArrayList <String>columnHeadings = new ArrayList<String>();
+  ArrayList <String>columnTypes = new ArrayList<String>();
   
   
   TableReader(String name) {
