@@ -13,6 +13,7 @@ class Axis  {
   float min, max;
   float minY = 980;
   float maxY = 40;
+  float boxx, boxy, boxw = 10, boxh;
   
   boolean selected = false;
   
@@ -32,6 +33,12 @@ class Axis  {
     text(label,x, labelY);
     line(x, y1, x, y2);
     text(min,x, minY); 
+    makeBox();
+  }
+  
+  void makeBox(){
+    FilterBox box = new FilterBox(x-10,boxy,boxw,boxh);
+    box.display();
   }
   
   int checkSelected() {

@@ -15,7 +15,10 @@ boolean locked = false;
 float xOffset = 0.0;
 float yOffset = 0.0;
 boolean overlabel = false;
+boolean overAxis = false;
 float span;
+ArrayList<FilterBox> boxes = new ArrayList<FilterBox>();
+float a,b;
 
 
 
@@ -129,13 +132,21 @@ void getMinMax(int column) {
   
 
 void draw () {
-  background(255);
+  background(255); 
+  
+  //draw coordinates
+  for (int i = 0; i < rows.length; i++) {
+    rows[i].setCoordinates();
+  }
+  
   //draw axes
   for (int i = 0; i<axes.size(); i++) {
     axes.get(i).display();
+    
     //test if cursor is  over a label
     if (mouseX > axes.get(i).x - 10 && (mouseX < axes.get(i).x+10)) {
       overlabel = true;
+      overAxis = true;
       if (!locked) {
         selectedAxisIndex = i;
       }
@@ -143,18 +154,10 @@ void draw () {
     if (mouseY > 90) {
       overlabel = false;
     }
-    if (!overlabel) {
+    if (!overAxis) {
       selectedAxisIndex = -1;
     }
   }
-  
-  
-  
-  //draw coordinates
-  for (int i = 0; i < rows.length; i++) {
-    rows[i].setCoordinates();
-  }
-  
 
 }
 
@@ -168,10 +171,10 @@ void mousePressed() {
   xOffset = mouseX - axes.get(selectedAxisIndex).x;
   }
   
-  if(!overlabel) {
-    float a = mouseX;
-    float b = mouseY;
-    //FilterBox box = new FilterBox(
+  if( overAxis) {
+    axes.get(selectedAxisIndex).boxx = mouseX;
+    axes.get(selectedAxisIndex).boxy = mouseY;
+    axes.get(selectedAxisIndex).makeBox();
   }
 }
 
@@ -179,6 +182,9 @@ void mouseDragged() {
   if(overlabel && locked && selectedAxisIndex != -1){
     axes.get(selectedAxisIndex).x = mouseX - xOffset;
     axes.get(selectedAxisIndex).checkSelected();
+  }
+  if (overAxis) {
+    axes.get(selectedAxisIndex).boxh = mouseY - axes.get(selectedAxisIndex).boxy;
   }
 }
 
