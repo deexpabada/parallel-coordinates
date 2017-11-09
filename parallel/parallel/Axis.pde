@@ -10,6 +10,9 @@ class Axis  {
   int index;
   float span;
   int r = 0, g =0, b = 0;
+  float min, max;
+  float minY = 980;
+  float maxY = 40;
   
   boolean selected = false;
   
@@ -17,7 +20,6 @@ class Axis  {
   Axis(String label)
   {
     this.label = label;
-    //this.x = x;  
   }
    
   void display()
@@ -29,6 +31,7 @@ class Axis  {
     textAlign(CENTER);
     text(label,x, labelY);
     line(x, y1, x, y2);
+    text(min,x, minY); 
   }
   
   int checkSelected() {

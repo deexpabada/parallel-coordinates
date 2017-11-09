@@ -20,8 +20,8 @@ float span;
 
 
 void setup() {
-  smooth();
-  size(2200,1200);
+  //size(2200,1200, P2D);
+  fullScreen(P2D);
   pixelDensity(displayDensity());
  
 
@@ -49,9 +49,9 @@ void setup() {
   }
 }
 
+
 //Creates lists of maxs, mins, and category values for a given row of data.
 void createLists() {        
-  
   rows = new Row[tb.table.getRowCount()-2];                //Only consider rows that will produce lines
   
   for (int i = 2; i < tb.table.getRowCount() ; i++) {      //iterate through rows 2:tb.table.getRowCount();
@@ -140,13 +140,22 @@ void draw () {
         selectedAxisIndex = i;
       }
     }
+    if (mouseY > 90) {
+      overlabel = false;
+    }
+    if (!overlabel) {
+      selectedAxisIndex = -1;
+    }
   }
+  
   
   
   //draw coordinates
   for (int i = 0; i < rows.length; i++) {
     rows[i].setCoordinates();
   }
+  
+
 }
 
 void mousePressed() {
@@ -155,19 +164,30 @@ void mousePressed() {
   } else {
     locked = false;
   }
+  if (overlabel && selectedAxisIndex != -1) {
   xOffset = mouseX - axes.get(selectedAxisIndex).x;
+  }
+  
+  if(!overlabel) {
+    float a = mouseX;
+    float b = mouseY;
+    //FilterBox box = new FilterBox(
+  }
 }
 
 void mouseDragged() {
-  if(locked){
+  if(overlabel && locked && selectedAxisIndex != -1){
     axes.get(selectedAxisIndex).x = mouseX - xOffset;
     axes.get(selectedAxisIndex).checkSelected();
   }
 }
 
 void mouseReleased(){
-  locked=false;
-  reorderAxis();
+  if (overlabel) {
+    locked=false;
+    reorderAxis();
+  }
+  selectedAxisIndex = -1;
 }
 
 void reorderAxis() {
