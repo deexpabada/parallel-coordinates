@@ -3,33 +3,54 @@ class Axis  {
   
   String label;
   float labelX;
-  float labelY;
-  float x1;
-  float y1;
-  float x2; 
-  float y2;
+  float labelY = 30;
+  float x;
+  int weight = 1;
+  float y1 = 60; 
+  float y2 = 950;
+  int index;
+  int r = 0, g =0, b = 0;
   
-  boolean isDisplaced;
+  boolean selected = false;
   
     
-  Axis(String label, float labelX, float labelY, float x1, float y1, float x2, float y2)
+  Axis(String label, float labelX, float x)
   {
     this.label = label;
     this.labelX = labelX;
-    this.labelY = labelY;
-    this.x1 = x1;
-    this.y1 = y1;
-    this.x2 = x2;
-    this.y2 = y2;    
+    this.x = x;  
   }
    
   void display()
   {
-    textSize(13);
-    textSize(9);
+    pushMatrix();
+    stroke(r,g,b);
+    textSize(16);
+    strokeWeight(weight);
     textAlign(CENTER);
     text(label,labelX, labelY);
-    line(x1, y1, x2, y2);
+    line(x, y1, x, y2);
+    popMatrix();
   }
   
+  int checkSelected() {
+    selected = true;
+    weight = 3;
+    r = 255;
+    g = 0;
+    b = 0;
+    return index;
+  }
+  
+  void updateX(float xpos) {
+    labelX = xpos*(index)+60;
+    x = xpos*(index) + 60;
+  }
+  
+  
+  void moveAxis(float mx) {
+    if(selected) {
+      x = mx;
+    }
+  }
 }

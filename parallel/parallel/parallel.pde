@@ -2,33 +2,47 @@ PFont font;
 Table table;
 ArrayList columnHeadings;
 Row[] rows;
+int selectedAxisIndex;
 TableReader tb;
 float[] minList;
 float[] maxList;
 ArrayList categoryTypes = new ArrayList();
-float columnHeight = 700;
+float columnHeight = 900;
 HashMap<String, Float> categoryCoord;
 Axis[] axes;
-
+boolean click1 = false;
+float xpos;
 
 
 void setup() {
-  size(1200,900);
+  size(2200,1200);
   pixelDensity(displayDensity());
+  background(237,154,184);
 
   font = createFont("SansSerif", 10);
   textFont(font);
 
   //Read Tables
   //tb = new TableReader("nutrients-cleaned.tsv");
-  tb = new TableReader("cameras-cleaned.tsv");
-  //tb = new TableReader("cars-cleaned.tsv");
+  //tb = new TableReader("cameras-cleaned.tsv");
+  tb = new TableReader("cars-cleaned.tsv");
 
   tb.tableRead();
   createLists();
+
+  axes = new Axis[tb.columnHeadings.size()];
+    
+  //Change axis positions eventually
+  xpos = 2000 / tb.columnHeadings.size(); 
   
-  //Currently selected axis
-  int chosenAxis = -1;
+  for (int i = 0; i< axes.length; i++) {
+    String label = tb.columnHeadings.get(i).toString();
+    fill(0);
+    float labelX = xpos*(i)+60;
+    float lineX = xpos*(i) + 60;
+    Axis axis = new Axis(label, labelX, lineX);
+    axes[i] = axis;
+  }
 
 }
 
@@ -112,30 +126,8 @@ void getMinMax(int column) {
   
 
 void draw () {
-  
-  //Change axis positions eventually
-  int xpos = 1200 / tb.columnHeadings.size(); 
-  
-  axes = new Axis[tb.columnHeadings.size()];
-  
-  for (int i = 0; i< axes.length; i++) {
-    
-    String label = tb.columnHeadings.get(i).toString();
-    fill(0);
-    float labelX = xpos*(i)+19.5;
-    float labelY = 120;
-    //textSize(13);
-    //textSize(9);
-    //textAlign(CENTER);
-    //text(label,xpos*(i)+19.5,120);
-    float lineX1 = xpos*(i) + 19.5;
-    float lineY1 = 150;
-    float lineX2 = (xpos*(i))+19.5;
-    float lineY2 = 850;
-    Axis axis = new Axis(label, labelX, labelY, lineX1, lineY1, lineX2, lineY2);
-    axes[i] = axis;
-    axis.display();
-    //line((xpos*(i))+19.5, 150, (xpos*(i))+19.5, 850);
+  for (Axis a: axes) {
+    a.display();
   }
   
   //draw coordinates
@@ -144,16 +136,47 @@ void draw () {
   }
 }
 
-//------------------------------------------------------------------------------------
-void mouseDragged() {
-  
-  //Make an Axis class in order to manipulate Axis objects easily
-  
-  
+void reorderAxes(float mx){
+  float span = 2200 / tb.columnHeadings.size();
+  for (int i = 0; i < tb.columnHeadings.size(); i++) {
+    if (abs(((span*i)+30) - mx) < 5) {
+      for (Axis a: axes) {
+        if (a.index == selectedAxisIndex) {
+          a.index = i;
+        } 
+        if (a.index >= i) {
+          a.index = a.index + 1;
+        }
+        a.updateX(xpos);
+      }
+    }
+  }
 }
 
-void mouseReleased() {
+void mousePressed() {
+  if (!click1){
+    for (Axis a: axes) {
+      if (mouseY < 30) {
+        if (mouseX > (a.labelX - 10) && mouseX < (a.labelX+10)) {
+          selectedAxisIndex = a.checkSelected();
+          print(selectedAxisIndex);
+          click1 = true;
+        }
+      }
+    }
+  } else {
+    click1 = false;
+    reorderAxes(mouseX);
+  }
+}
+
   
-  
-  
+void mouseMoved() {
+  if (click1) {
+    for (Axis a: axes) {
+      if(a.index == selectedAxisIndex) {
+        a.moveAxis(mouseX);
+      }
+    }
+  }
 }
