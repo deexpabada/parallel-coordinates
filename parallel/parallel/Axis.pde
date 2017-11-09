@@ -2,7 +2,6 @@
 class Axis  {
   
   String label;
-  float labelX;
   float labelY = 30;
   float x;
   int weight = 1;
@@ -14,10 +13,9 @@ class Axis  {
   boolean selected = false;
   
     
-  Axis(String label, float labelX, float x)
+  Axis(String label, float x)
   {
     this.label = label;
-    this.labelX = labelX;
     this.x = x;  
   }
    
@@ -28,7 +26,7 @@ class Axis  {
     textSize(16);
     strokeWeight(weight);
     textAlign(CENTER);
-    text(label,labelX, labelY);
+    text(label,x, labelY);
     line(x, y1, x, y2);
     popMatrix();
   }
@@ -43,7 +41,6 @@ class Axis  {
   }
   
   void updateX(float xpos) {
-    labelX = xpos*(index)+60;
     x = xpos*(index) + 60;
   }
   

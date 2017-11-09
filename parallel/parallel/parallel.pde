@@ -9,15 +9,21 @@ float[] maxList;
 ArrayList categoryTypes = new ArrayList();
 float columnHeight = 900;
 HashMap<String, Float> categoryCoord;
-Axis[] axes;
-boolean click1 = false;
+ArrayList<Axis> axes = new ArrayList<Axis>();
+boolean clicked = false;
 float xpos;
+boolean locked = false;
+float xOffset = 0.0;
+float yOffset = 0.0;
+boolean overlabel = false;
+float span;
+
 
 
 void setup() {
   size(2200,1200);
   pixelDensity(displayDensity());
-  background(237,154,184);
+ 
 
   font = createFont("SansSerif", 10);
   textFont(font);
@@ -30,20 +36,17 @@ void setup() {
   tb.tableRead();
   createLists();
 
-  axes = new Axis[tb.columnHeadings.size()];
     
   //Change axis positions eventually
   xpos = 2000 / tb.columnHeadings.size(); 
   
-  for (int i = 0; i< axes.length; i++) {
+  for (int i = 0; i< tb.columnHeadings.size(); i++) {
     String label = tb.columnHeadings.get(i).toString();
     fill(0);
-    float labelX = xpos*(i)+60;
-    float lineX = xpos*(i) + 60;
-    Axis axis = new Axis(label, labelX, lineX);
-    axes[i] = axis;
+    float x = xpos*(i)+60;
+    Axis axis = new Axis(label, x);
+    axes.add(axis);
   }
-
 }
 
 //Creates lists of maxs, mins, and category values for a given row of data.
@@ -126,8 +129,16 @@ void getMinMax(int column) {
   
 
 void draw () {
-  for (Axis a: axes) {
-    a.display();
+  background(237,154,184);
+  for (int i = 0; i<axes.size(); i++) {
+    axes.get(i).display();
+    //test if cursor is  over a label
+    if (mouseX > axes.get(i).x - 10 && (mouseX < axes.get(i).x+10)) {
+      overlabel = true;
+      if (!locked) {
+        selectedAxisIndex = i;
+      }
+    }
   }
   
   //draw coordinates
@@ -136,47 +147,35 @@ void draw () {
   }
 }
 
-void reorderAxes(float mx){
-  float span = 2200 / tb.columnHeadings.size();
+
+void reorderAxis() {
+  span = 2200 / tb.columnHeadings.size();
   for (int i = 0; i < tb.columnHeadings.size(); i++) {
-    if (abs(((span*i)+30) - mx) < 5) {
-      for (Axis a: axes) {
-        if (a.index == selectedAxisIndex) {
-          a.index = i;
-        } 
-        if (a.index >= i) {
-          a.index = a.index + 1;
-        }
-        a.updateX(xpos);
-      }
+    if ((abs(span * i + 20) - mouseX) < 5) {
+      axes.get(selectedAxisIndex).index = i;
+    }
+    if (axes.get(i).index > i) {
+      axes.get(i).index = axes.get(i).index+1;
+      axes.get(i).updateX(span);
     }
   }
 }
 
 void mousePressed() {
-  if (!click1){
-    for (Axis a: axes) {
-      if (mouseY < 30) {
-        if (mouseX > (a.labelX - 10) && mouseX < (a.labelX+10)) {
-          selectedAxisIndex = a.checkSelected();
-          print(selectedAxisIndex);
-          click1 = true;
-        }
-      }
-    }
+  if(overlabel) {
+    locked = true;
   } else {
-    click1 = false;
-    reorderAxes(mouseX);
+    locked = false;
+  }
+  xOffset = mouseX - axes.get(selectedAxisIndex).x;
+}
+
+void mouseDragged() {
+  if(locked){
+    axes.get(selectedAxisIndex).x = mouseX - xOffset;
   }
 }
 
-  
-void mouseMoved() {
-  if (click1) {
-    for (Axis a: axes) {
-      if(a.index == selectedAxisIndex) {
-        a.moveAxis(mouseX);
-      }
-    }
-  }
+void mouseReleased(){
+  locked=false;
 }
