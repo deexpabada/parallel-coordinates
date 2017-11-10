@@ -1,24 +1,20 @@
 PFont font;
 Table table;
-ArrayList <String>columnHeadings;
-Row[] rows;
-int selectedAxisIndex;
 TableReader tb;
-float[] minList;
-float[] maxList;
+ArrayList <String>columnHeadings;
 ArrayList <String>categoryTypes = new ArrayList();
-float columnHeight = 900;
 HashMap<String, Float> categoryCoord;
+Row[] rows;
 ArrayList<Axis> axes = new ArrayList<Axis>();
+int selectedAxisIndex;
+float[] minList, maxList;
+float columnHeight = 900;
 boolean clicked = false;
 boolean locked = false;
-float xOffset = 0.0;
-float yOffset = 0.0;
+float xOffset = 0.0, yOffset = 0.0;
 boolean overlabel = false;
 boolean overAxis = false;
 float span;
-ArrayList<FilterBox> boxes = new ArrayList<FilterBox>();
-float a,b;
 int yoffset = 80;
 
 
@@ -34,8 +30,8 @@ void setup() {
 
   //Read Tables
   //tb = new TableReader("nutrients-cleaned.tsv");
-  tb = new TableReader("cameras-cleaned.tsv");
-  //tb = new TableReader("cars-cleaned.tsv");
+  //tb = new TableReader("cameras-cleaned.tsv");
+  tb = new TableReader("cars-cleaned.tsv");
 
   tb.tableRead();
   createLists();
@@ -195,7 +191,9 @@ void mouseReleased(){
     locked=false;
     reorderAxis();
   }
-  filtered();
+  if (selectedAxisIndex != -1) {
+    filtered();
+  }
   selectedAxisIndex = -1;
 }
 
