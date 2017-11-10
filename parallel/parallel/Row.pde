@@ -15,7 +15,7 @@ class Row {
   }
   
   void setCoordinates() {
-    float xpos = 2000 / columnNumber;          
+    float xpos = displayWidth / columnNumber;          
       
     for (int i = 0; i < columnNumber-1; i++) {
       x1 = (xpos * i) + xoffset;

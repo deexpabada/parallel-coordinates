@@ -28,17 +28,17 @@ void setup() {
   font = createFont("Verdana", 10);
   textFont(font);
 
-  //Read Tables
+  //READ TABLES
   //tb = new TableReader("nutrients-cleaned.tsv");
-  //tb = new TableReader("cameras-cleaned.tsv");
-  tb = new TableReader("cars-cleaned.tsv");
+  tb = new TableReader("cameras-cleaned.tsv");
+  //tb = new TableReader("cars-cleaned.tsv");
 
   tb.tableRead();
   createLists();
 
     
   //Change axis positions eventually
-  span = 2000 / tb.columnHeadings.size(); 
+  span = displayWidth / tb.columnHeadings.size(); 
   
   for (int i = 0; i< tb.columnHeadings.size(); i++) {
     String label = tb.columnHeadings.get(i);
@@ -132,9 +132,12 @@ void draw () {
   background(255);
   
   //draw button
-  stroke(66,185,244);
-  fill(66,185,244);
-  rect(900, 1000, 200, 50);
+  stroke(41,117,115);
+  fill(41,117,115);
+  rect(displayWidth - 500, displayHeight - 300, 200, 50);
+  fill(255);
+  textSize(20);
+  text("Clear filters", 1600, 1050);
   
   //draw coordinates
   for (int i = 0; i < rows.length; i++) {
