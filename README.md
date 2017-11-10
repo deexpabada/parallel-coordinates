@@ -3,14 +3,14 @@
 
 ### Implementation
 Static Visualization
-![](https://raw.githubusercontent.com/deexpabada/parallel-coordinates/master/Screenshots/Screen%20Shot%202017-11-09%20at%209.26.09%20PM.png)
+![](https://raw.githubusercontent.com/deexpabada/parallel-coordinates/master/Final%20Screenshots/Screen%20Shot%202017-11-09%20at%209.26.09%20PM.png)
 
 ### Interaction
 Filtering
-![](https://raw.githubusercontent.com/deexpabada/parallel-coordinates/master/Screenshots/Screen%20Shot%202017-11-09%20at%209.26.36%20PM.png)
+![](https://raw.githubusercontent.com/deexpabada/parallel-coordinates/master/Final%20Screenshots/Screen%20Shot%202017-11-09%20at%209.26.36%20PM.png)
 
-Axes Swap
-![](https://raw.githubusercontent.com/deexpabada/parallel-coordinates/master/Screenshots/Screen%20Shot%202017-11-09%20at%209.26.21%20PM.png)
+Axes Swap 
+![](https://raw.githubusercontent.com/deexpabada/parallel-coordinates/master/Final%20Screenshots/Screen%20Shot%202017-11-09%20at%209.26.21%20PM.png)
 
 ### Design Decision
 We wanted to go for a minimalist design, because we hate chart junk. We were able to implement most of our decisions from the paper prototype. First, we wanted to highlight the axis when it was selected to move. We tried to create a stark contrast by using red. We strayed away from green or colors that could be compromised by color blindness. The axes are labeled at the top accordingly. Second, we used dark shade boxes that users drag with their mouse to filter the data points. We implemented a clear button on the bottom of the visualization to clear all filters if users wished. Lastly, the lines were drawn to represent a row of data. We chose a color that is easy to perceive and not too harsh on the eye, considering a large number of lines are drawn. The weight of the lines was adjusted to help perceive large quantities of lines as well. 
