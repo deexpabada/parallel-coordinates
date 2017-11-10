@@ -14,6 +14,7 @@ boolean locked = false;
 float xOffset = 0.0, yOffset = 0.0;
 boolean overlabel = false;
 boolean overAxis = false;
+boolean overButton = false;
 float span;
 int yoffset = 80;
 
@@ -134,10 +135,10 @@ void draw () {
   //draw button
   stroke(41,117,115);
   fill(41,117,115);
-  rect(displayWidth - 500, displayHeight - 300, 200, 50);
+  rect(displayWidth/2-100, 1000, 200, 50);
   fill(255);
-  textSize(20);
-  text("Clear filters", 1600, 1050);
+  textSize(30);
+  text("Clear filters", displayWidth/2, 1040);
   
   //draw coordinates
   for (int i = 0; i < rows.length; i++) {
@@ -156,13 +157,20 @@ void draw () {
         selectedAxisIndex = i;
       }
     }
+    
     if (mouseY > 90) {
       overlabel = false;
     }
     
+    //if mouse is not over axis
     if (!overAxis) {
       selectedAxisIndex = -1;
     }
+  }
+  
+   //mouse over button
+  if (mouseX < displayWidth/2+400 && mouseX > displayWidth/2-400 && mouseY > 1000 && mouseY < 1100){
+      overButton = true;
   }
 
 }
@@ -181,6 +189,17 @@ void mousePressed() {
     axes.get(selectedAxisIndex).boxy = mouseY;
     axes.get(selectedAxisIndex).makeBox();
   }
+  
+  if(overButton) {
+    for (Row row: rows) {
+      row.display = true;
+    }
+    for (int i = 0; i<axes.size();i++) {
+      axes.get(i).reset();
+    }
+    overButton = false;
+  }
+ 
 }
 
 void mouseDragged() {

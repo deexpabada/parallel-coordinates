@@ -20,7 +20,7 @@ class Axis  {
   {
     this.label = label;
   }
-   
+    
   void display()
   {
     stroke(r,g,b);
@@ -31,6 +31,14 @@ class Axis  {
     text(label,x, labelY);
     line(x, y1, x, y2); 
     makeBox();
+  }
+  
+  
+  void reset() {
+    maxY = 980;
+    minY = 80;
+    boxw = 0;
+    boxh = 0;
   }
   
   void makeBox(){
