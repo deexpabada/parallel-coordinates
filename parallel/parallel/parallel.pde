@@ -19,6 +19,7 @@ boolean overAxis = false;
 float span;
 ArrayList<FilterBox> boxes = new ArrayList<FilterBox>();
 float a,b;
+int yoffset = 80;
 
 
 
@@ -194,7 +195,19 @@ void mouseReleased(){
     locked=false;
     reorderAxis();
   }
+  filtered();
   selectedAxisIndex = -1;
+}
+
+void filtered() {
+  for (int i = 0; i<rows.length; i++) {
+      if (rows[i].columnData.get(selectedAxisIndex) + yoffset > axes.get(selectedAxisIndex).maxY) {
+        rows[i].display = false;
+    }
+     if (rows[i].columnData.get(selectedAxisIndex) + yoffset < axes.get(selectedAxisIndex).minY) {
+        rows[i].display = false;
+    }
+  }
 }
 
 void reorderAxis() {
@@ -218,6 +231,7 @@ void reorderAxis() {
     float rowtemp = row.columnData.get(selectedAxisIndex);
     row.columnData.remove(selectedAxisIndex);
     row.columnData.add(closestIndex, rowtemp);
+    
   }
   for (int i = 0; i < axes.size(); i++) {
     axes.get(i).updateX(i);

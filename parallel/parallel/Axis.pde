@@ -11,6 +11,7 @@ class Axis  {
   float span;
   int r = 0, g =0, b = 0;
   float boxy, boxw = 0, boxh=0;
+  float minY = y1, maxY = y2;      //y coordinates of filterbox
   
   boolean selected = false;
   
@@ -34,6 +35,8 @@ class Axis  {
   
   void makeBox(){
     FilterBox box = new FilterBox(x-5,boxy,boxw,boxh);
+    minY = boxy;
+    maxY = boxy+boxh;
     box.display();
   }
   
