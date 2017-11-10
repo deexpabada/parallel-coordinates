@@ -23,7 +23,7 @@ class Row {
       x2 = (xpos * (i+1)) + xoffset;
       y2 = columnData.get(i+1)+yoffset;
       if (display) {
-      display(x1, y1, x2, y2);
+        display(x1, y1, x2, y2);
       }
       x2 = x1;        //reset x2 values
       y2 = y1;        //reset y2 values
