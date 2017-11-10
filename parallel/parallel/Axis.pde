@@ -37,6 +37,11 @@ class Axis  {
     FilterBox box = new FilterBox(x-5,boxy,boxw,boxh);
     minY = boxy;
     maxY = boxy+boxh;
+    if (minY > maxY) {
+      float temp = minY;
+      minY = maxY;
+      maxY = temp;
+    }
     box.display();
   }
   
