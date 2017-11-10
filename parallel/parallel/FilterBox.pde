@@ -12,9 +12,9 @@ class FilterBox{
   }
   
   void display() {
-    stroke(81,86,75);
+    stroke(2,8,122);
     strokeWeight(1);
-    fill(81,86,75);
+    fill(2,8,122);
     rect(x,y,w,h);
   }
 }

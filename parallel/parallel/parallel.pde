@@ -133,8 +133,8 @@ void draw () {
   background(255);
   
   //draw button
-  stroke(41,117,115);
-  fill(41,117,115);
+  stroke(2, 8, 122);
+  fill(2, 8, 122);
   rect(displayWidth/2-100, 1000, 200, 50);
   fill(255);
   textSize(30);
