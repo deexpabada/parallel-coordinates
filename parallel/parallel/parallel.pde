@@ -129,7 +129,12 @@ void getMinMax(int column) {
   
 
 void draw () {
-  background(255); 
+  background(255);
+  
+  //draw button
+  stroke(66,185,244);
+  fill(66,185,244);
+  rect(900, 1000, 200, 50);
   
   //draw coordinates
   for (int i = 0; i < rows.length; i++) {
@@ -191,7 +196,7 @@ void mouseReleased(){
     locked=false;
     reorderAxis();
   }
-  if (selectedAxisIndex != -1) {
+  if (!overlabel && selectedAxisIndex != -1) {
     filtered();
   }
   selectedAxisIndex = -1;
@@ -231,7 +236,10 @@ void reorderAxis() {
     row.columnData.add(closestIndex, rowtemp);
     
   }
+  
   for (int i = 0; i < axes.size(); i++) {
     axes.get(i).updateX(i);
   }
+  
+  
 }
