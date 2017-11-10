@@ -130,7 +130,7 @@ void getMinMax(int column) {
   
 
 void draw () {
-  background(255);
+  background(247,247,237);
   
   //draw button
   stroke(2, 8, 122);
